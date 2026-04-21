@@ -1,0 +1,6 @@
+para_image_parra
+para_image
+*.o
+arcl.txt
+output_log.txt
+img/*.bmp
