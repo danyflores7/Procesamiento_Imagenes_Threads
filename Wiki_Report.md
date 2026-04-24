@@ -22,7 +22,7 @@ Cada transformación por cada imagen se asignó como una tarea independiente (ut
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
 | **Daniel Flores** | macOS 15.6 | Apple M1 Pro | 8 | 8 | 3.22 GHz | 16 GB |
 | **Ezio Saucedo** | Windows 11 Home 25H2 | 12th Gen i7-1255u | 10 | 12 | 1.70 GHz | 16 GB |
-| **[Compañero 3]** | [OS] | [CPU] | [N] | [N] | [Freq] | [RAM] |
+| **Kevin Núñez** | Linux (WSL sobre Windows 11) | AMD Ryzen 7 5800H | 8 | 16 | 3.2 – 4.4 GHz | 16 GB |
 
 ---
 
@@ -33,7 +33,7 @@ Tiempo total de procesamiento de las 6 transformaciones sobre las 3 imágenes.
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Daniel Flores** | 4.388 | 4.174 | 4.310 | 12 threads | ~4.8% |
 | **Ezio Saucedo** | 2.635 | 2.232 | 2.381 | 12 threads | ~15.3% |
-| **[Compañero 3]** | 0.00 | 0.00 | 0.00 | [Mejor config] | [ % ] |
+| **Kevin Núñez** | 17.76 | 14.98 | 10.64 | 18 threads | ~40% |
 
 ---
 
@@ -44,6 +44,12 @@ El procesador M1 Pro cuenta con un máximo de 8 threads físicos (Apple Silicon 
 * **Con 6 Threads (4.388 s):** Las 18 tareas se distribuyeron a lo largo de 6 de los 8 núcleos, despachándose de manera eficiente de 6 en 6.
 * **Con 12 Threads (4.174 s):** Se obtiene la ligera mejoría del ~4.8% y resulta ser el punto óptimo. Esto se debe a que OpenMP exprime al 100% los **8 hilos físicos** usando todas las capacidades lógicas, logrando el mejor paso de las 18 instrucciones.
 * **Con 18 Threads (4.310 s):** Surge un efecto de **sobresuscripción (over-subscription)**. Al imponer explícitamente 18 hilos sobre 8 núcleos reales, se presenta un esfuerzo adicional de gestión (*context-switching*) entre tantas variables sin un beneficio real. Sumado a esto, se presenta un cuello de botella de Entradas y Salidas (*I/O Bottleneck*) ya que el programa intenta enviar masivamente ~700 MB de imágenes al almacenamiento de estado sólido todos en franjas milisegundo idénticas, resultando en una degradación.
+
+### Kevin Núñez — AMD Ryzen 7 5800H · Linux (WSL sobre Windows 11)
+El procesador cuenta con 8 núcleos físicos y 16 hilos lógicos mediante SMT, lo cual permite explotar paralelismo a nivel de tareas con OpenMP.
+* **Con 6 Threads (17.76 s):** El rendimiento es el más bajo debido a una subutilización del hardware, ya que solo se aprovecha una parte de los hilos disponibles para ejecutar las 18 tareas.
+* **Con 12 Threads (14.98 s):** Se observa una mejora significativa en el tiempo de ejecución al incrementar el paralelismo y distribuir más eficientemente las tareas entre los hilos disponibles.
+* **Con 18 Threads (10.64 s):** Se alcanza el mejor rendimiento con una reducción cercana al 40%, ya que se logra ejecutar prácticamente todas las tareas en paralelo, aprovechando al máximo los recursos del sistema sin que el overhead afecte de forma crítica.
 
 **Monitoreo del sistema — 6, 12 y 18 Threads (Daniel)**  
 *(A continuación se muestran los picos de saturación total correspondientes a nuestras corridas ininterrumpidas de derecha a izquierda demostrando paralaje del 100%)*
@@ -65,6 +71,12 @@ El procesador M1 Pro cuenta con un máximo de 8 threads físicos (Apple Silicon 
 
 ---
 
+**Monitoreo del sistema — 6, 12 y 18 Threads (Kevin)**  
+*(A continuación se muestran los picos de saturación total correspondientes a nuestras corridas ininterrumpidas de derecha a izquierda demostrando paralaje del 100%)*
+![Monitor de CPU de Daniel](./cpu_threads_kevin.png)
+
+---
+
 ## 4. Comparativa general
 *(Compañeros: Llenar tabla para ver la tendencia gráfica de todo el equipo)*
 
@@ -72,7 +84,7 @@ El procesador M1 Pro cuenta con un máximo de 8 threads físicos (Apple Silicon 
 | :--- | :---: | :---: | :---: | :--- |
 | **Daniel Flores** | 4.388 | 4.174 | 4.310 | ↘ Mejora leve pero luego ↑ Degrada |
 | **Ezio Saucedo** | 2.635 | 2.232 | 2.381 | mejora progresiva al aumentar hilos, despues degrada|
-| **[Compañero 3]** | 0.00 | 0.00 | 0.00 | [Tendencia] |
+| **Kevin Núñez** | 17.76 | 14.98 | 10.64 | Va mejorando linearmente |
 
 ---
 
