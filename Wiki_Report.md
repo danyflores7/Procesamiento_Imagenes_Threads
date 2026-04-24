@@ -21,7 +21,7 @@ Cada transformación por cada imagen se asignó como una tarea independiente (ut
 | Integrante | Sistema Operativo | Procesador | Cores | Threads Físicos | Frecuencia | RAM |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
 | **Daniel Flores** | macOS 15.6 | Apple M1 Pro | 8 | 8 | 3.22 GHz | 16 GB |
-| **[Compañero 2]** | [OS] | [CPU] | [N] | [N] | [Freq] | [RAM] |
+| **Ezio Saucedo** | Windows 11 Home 25H2 | 12th Gen i7-1255u | 10 | 12 | 1.70 GHz | 16 GB |
 | **[Compañero 3]** | [OS] | [CPU] | [N] | [N] | [Freq] | [RAM] |
 
 ---
@@ -32,7 +32,7 @@ Tiempo total de procesamiento de las 6 transformaciones sobre las 3 imágenes.
 | Integrante | 6 threads (s) | 12 threads (s) | 18 threads (s) | Mejor configuración | Reducción |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Daniel Flores** | 4.388 | 4.174 | 4.310 | 12 threads | ~4.8% |
-| **[Compañero 2]** | 0.00 | 0.00 | 0.00 | [Mejor config] | [ % ] |
+| **Ezio Saucedo** | 2.635 | 2.232 | 2.381 | 12 threads | ~15.3% |
 | **[Compañero 3]** | 0.00 | 0.00 | 0.00 | [Mejor config] | [ % ] |
 
 ---
@@ -71,7 +71,7 @@ El procesador M1 Pro cuenta con un máximo de 8 threads físicos (Apple Silicon 
 | Integrante | 6 threads (s) | 12 threads (s) | 18 threads (s) | Tendencia |
 | :--- | :---: | :---: | :---: | :--- |
 | **Daniel Flores** | 4.388 | 4.174 | 4.310 | ↘ Mejora leve pero luego ↑ Degrada |
-| **[Compañero 2]** | 0.00 | 0.00 | 0.00 | [Tendencia] |
+| **Ezio Saucedo** | 2.635 | 2.232 | 2.381 | mejora progresiva al aumentar hilos, despues degrada|
 | **[Compañero 3]** | 0.00 | 0.00 | 0.00 | [Tendencia] |
 
 ---

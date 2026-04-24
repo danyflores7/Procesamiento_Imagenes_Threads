@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
     fprintf(fptr, "Ejemplo prueba OPENMP\n");
-    fprintf(fptr, "Daniel Flores Rojas\n");
+    fprintf(fptr, "Ezio Uriel Saucedo Diaz\n");
     fclose(fptr);
 
     // Medir tiempo
