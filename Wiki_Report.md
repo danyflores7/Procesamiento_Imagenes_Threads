@@ -87,7 +87,7 @@ En conclusión, mi equipo escala bien al pasar de 6 a 12 threads, pero al subir 
 ---
 
 ## 5. Conclusión Global del Equipo
-*(Borrador base, complementar para el momento de entrega cuando todos tengan tiempos)*
+
 
 El comportamiento observado demuestra que la paralelización de múltiples tareas utilizando OpenMP posee beneficios escalonados hasta el tope físico de los ordenadores, revelando las siguientes limitantes:
 
