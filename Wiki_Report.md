@@ -45,35 +45,33 @@ El procesador M1 Pro cuenta con un máximo de 8 threads físicos (Apple Silicon 
 * **Con 12 Threads (4.174 s):** Se obtiene la ligera mejoría del ~4.8% y resulta ser el punto óptimo. Esto se debe a que OpenMP exprime al 100% los **8 hilos físicos** usando todas las capacidades lógicas, logrando el mejor paso de las 18 instrucciones.
 * **Con 18 Threads (4.310 s):** Surge un efecto de **sobresuscripción (over-subscription)**. Al imponer explícitamente 18 hilos sobre 8 núcleos reales, se presenta un esfuerzo adicional de gestión (*context-switching*) entre tantas variables sin un beneficio real. Sumado a esto, se presenta un cuello de botella de Entradas y Salidas (*I/O Bottleneck*) ya que el programa intenta enviar masivamente ~700 MB de imágenes al almacenamiento de estado sólido todos en franjas milisegundo idénticas, resultando en una degradación.
 
+**Monitoreo del sistema — 6, 12 y 18 Threads (Daniel)**  
+*(A continuación se muestran los picos de saturación total correspondientes a nuestras corridas ininterrumpidas de derecha a izquierda demostrando paralaje del 100%)*
+![Monitor de CPU de Daniel](./cpu_threads.png)
+
 ### Kevin Núñez — AMD Ryzen 7 5800H · Linux (WSL sobre Windows 11)
 El procesador cuenta con 8 núcleos físicos y 16 hilos lógicos mediante SMT, lo cual permite explotar paralelismo a nivel de tareas con OpenMP.
 * **Con 6 Threads (17.76 s):** El rendimiento es el más bajo debido a una subutilización del hardware, ya que solo se aprovecha una parte de los hilos disponibles para ejecutar las 18 tareas.
 * **Con 12 Threads (14.98 s):** Se observa una mejora significativa en el tiempo de ejecución al incrementar el paralelismo y distribuir más eficientemente las tareas entre los hilos disponibles.
 * **Con 18 Threads (10.64 s):** Se alcanza el mejor rendimiento con una reducción cercana al 40%, ya que se logra ejecutar prácticamente todas las tareas en paralelo, aprovechando al máximo los recursos del sistema sin que el overhead afecte de forma crítica.
 
-**Monitoreo del sistema — 6, 12 y 18 Threads (Daniel)**  
-*(A continuación se muestran los picos de saturación total correspondientes a nuestras corridas ininterrumpidas de derecha a izquierda demostrando paralaje del 100%)*
-![Monitor de CPU de Daniel](./cpu_threads.png)
-
----
-
-### [Nombre Compañero 2] — [Procesador] · [OS]
-*(Compañero: Agrega aquí tu análisis observando tu propia imagen)*
-
-**Monitoreo del sistema — 6 threads**
-![Monitor Compañero 2 - 6 threads](link_imagen_aqui)
-
-**Monitoreo del sistema — 12 threads**
-![Monitor Compañero 2 - 12 threads](link_imagen_aqui)
-
-**Monitoreo del sistema — 18 threads**
-![Monitor Compañero 2 - 18 threads](link_imagen_aqui)
-
----
-
 **Monitoreo del sistema — 6, 12 y 18 Threads (Kevin)**  
 *(A continuación se muestran los picos de saturación total correspondientes a nuestras corridas ininterrumpidas de derecha a izquierda demostrando paralaje del 100%)*
 ![Monitor de CPU de Daniel](./cpu_threads_kevin.png)
+
+### Ezio Saucedo — Intel Core i7-1255U · Windows 11 Home 25H2
+El procesador Intel Core i7-1255U de 12ª generación cuenta con **10 núcleos** y **12 hilos lógicos**, por lo que ofrece un buen margen para paralelizar las 18 tareas del programa sin saturarse de inmediato. En mis resultados se observa que el mejor punto de ejecución fue con **12 threads**, que coincide con el total de hilos lógicos disponibles en el equipo.
+
+* **Con 6 Threads (2.635 s):** El programa ya presenta un rendimiento alto, pero todavía existe una subutilización parcial del procesador, ya que solo se está ocupando la mitad de los hilos lógicos disponibles para repartir las 18 tareas.
+* **Con 12 Threads (2.232 s):** Se obtiene el mejor tiempo, con una mejora aproximada del **15.3%** respecto a la corrida de 6 threads. En esta configuración OpenMP logra distribuir las tareas de forma más eficiente, aprovechando prácticamente toda la capacidad lógica del procesador.
+* **Con 18 Threads (2.381 s):** Aunque el tiempo sigue siendo mejor que con 6 threads, ya se observa una ligera degradación respecto al punto óptimo. Esto sugiere un efecto de **sobresuscripción (over-subscription)**, ya que se están forzando más hilos de los que el procesador puede ejecutar de manera simultánea, lo que introduce overhead por planificación y cambios de contexto.
+
+En conclusión, mi equipo escala bien al pasar de 6 a 12 threads, pero al subir a 18 threads el beneficio disminuye porque se rebasa el número de hilos lógicos disponibles. Por ello, la configuración más eficiente en este caso fue **12 threads**, al alinearse mejor con la arquitectura real del procesador.
+
+**Monitoreo del sistema — 6, 12 y 18 Threads (Ezio)**  
+*(A continuación se muestran los picos de saturación total correspondientes a nuestras corridas ininterrumpidas de derecha a izquierda demostrando paralaje del 100%)*
+![Monitor de CPU de Ezio](./cpu_threads_ezio.png)
+
 
 ---
 
